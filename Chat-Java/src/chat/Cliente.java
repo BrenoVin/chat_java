@@ -45,6 +45,7 @@ public class Cliente extends JFrame implements ActionListener {
 		painel.add(send);
 
 		this.add(painel);
+		this.pack();
 
 	}
 

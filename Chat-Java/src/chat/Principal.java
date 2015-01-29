@@ -9,8 +9,7 @@ public class Principal {
 		login.setDefaultCloseOperation(login.EXIT_ON_CLOSE);
 		login.setLocationRelativeTo(null);
 		login.setResizable(false);
-		login.setSize(220, 100);
-
+		login.setSize(220, 110);
 	}
 
 }

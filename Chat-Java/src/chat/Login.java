@@ -23,7 +23,7 @@ public class Login extends JFrame implements ActionListener {
 
 	public Login() {
 		super("Chat DnaTec");
-		painel = new JPanel(new GridLayout(3, 1));
+		painel = new JPanel();
 
 		entrar = new JButton("Entrar");
 		cadastrar = new JButton("Cadastar");
@@ -33,8 +33,8 @@ public class Login extends JFrame implements ActionListener {
 		login = new JLabel("Nome");
 		senha = new JLabel("Senha");
 
-		nickname = new JTextField(20);
-		password = new JPasswordField(20);
+		nickname = new JTextField(12);
+		password = new JPasswordField(12);
 
 		painel.add(login);
 		painel.add(login);
@@ -45,6 +45,7 @@ public class Login extends JFrame implements ActionListener {
 		painel.add(entrar);
 
 		this.add(painel);
+		this.pack();
 
 	}
 
@@ -57,10 +58,17 @@ public class Login extends JFrame implements ActionListener {
 			c.setDefaultCloseOperation(c.EXIT_ON_CLOSE);
 			c.setLocationRelativeTo(null);
 			c.setResizable(false);
-			c.setSize(450, 390);
+			c.setSize(450, 350);
 			this.dispose();
 		} else if (e.getSource() == cadastrar) {
 			// direcionar para tela de cadastro
+			Cadastro cad = new Cadastro();
+			cad.setVisible(true);
+			cad.setDefaultCloseOperation(cad.EXIT_ON_CLOSE);
+			cad.setLocationRelativeTo(null);
+			cad.setResizable(false);
+			cad.setSize(300, 170);// largura, altura
+			this.dispose();
 		}
 
 	}
