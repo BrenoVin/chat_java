@@ -22,7 +22,7 @@ public class Login extends JFrame implements ActionListener {
 	JTextField nickname;
 
 	public Login() {
-		super("Chat DnaTec");
+		super("Chat DnaTec 2015");
 		painel = new JPanel();
 
 		entrar = new JButton("Entrar");
@@ -30,8 +30,8 @@ public class Login extends JFrame implements ActionListener {
 		entrar.addActionListener(this);
 		cadastrar.addActionListener(this);
 
-		login = new JLabel("Nome");
-		senha = new JLabel("Senha");
+		login = new JLabel("Nome: ");
+		senha = new JLabel("Senha:");
 
 		nickname = new JTextField(12);
 		password = new JPasswordField(12);

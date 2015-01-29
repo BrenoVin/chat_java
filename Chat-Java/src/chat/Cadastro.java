@@ -72,15 +72,20 @@ public class Cadastro extends JFrame implements ActionListener {
 		} else if (e.getSource() == cadastrar) {
 			if (nomeInput.getText().compareTo("") == 0) {
 				JOptionPane.showMessageDialog(null, "Preencha o campo nome!");
+				nomeInput.requestFocus();
 			} else if (emailInput.getText().compareTo("") == 0) {
 				JOptionPane.showMessageDialog(null, "Preencha o campo email!");
+				emailInput.requestFocus();
 			} else if (senhaInput.getText().compareTo("") == 0) {
 				JOptionPane.showMessageDialog(null,
 						"Preencha o campo de senha!");
+				senhaInput.requestFocus();
 			} else if (senhaInput1.getText().compareTo("") == 0) {
 				JOptionPane.showMessageDialog(null, "Redigite sua senha!");
+				senhaInput1.requestFocus();
 			} else if (!senhaInput.getText().equals(senhaInput1.getText())) {
 				JOptionPane.showMessageDialog(null, "As senhas são diferentes");
+				senhaInput.requestFocus();
 				senhaInput.setText("");
 				senhaInput1.setText("");
 			} else {

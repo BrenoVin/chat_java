@@ -2,6 +2,7 @@ package chat;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,9 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardDownRightHandler;
 
 public class Cliente extends JFrame implements ActionListener {
-	
+
 	JPanel painel;
 	JButton send;
 	JTextArea area;
@@ -25,8 +27,6 @@ public class Cliente extends JFrame implements ActionListener {
 		painel = new JPanel();
 		send = new JButton("Enviar");
 
-		send.addActionListener(this);
-
 		area = new JTextArea(18, 39);
 		area.setWrapStyleWord(true);
 		area.setLineWrap(true);
@@ -38,6 +38,9 @@ public class Cliente extends JFrame implements ActionListener {
 		scroll.setViewportView(area);
 
 		input = new JTextField(30);
+
+		send.addActionListener(this);
+		
 
 		painel.add(scroll);
 		// painel.add(area);
@@ -52,8 +55,14 @@ public class Cliente extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == send) {
-			area.setText(area.getText() + input.getText());
-		}
+			// Date data = new Date();
+			// String d = data.getHours() + ":" + data.getMinutes() + ":"
+			// + data.getSeconds();
 
+			area.setText(area.getText() + "\n" + input.getText() + "\n");// +d+"\n");
+
+			input.setText("");
+			input.requestFocus();
+		}
 	}
 }
