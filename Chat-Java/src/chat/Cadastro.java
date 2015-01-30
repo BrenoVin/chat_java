@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import factory_bd.CadastroDAO;
+import factory_bd.Conexao;
+
 public class Cadastro extends JFrame implements ActionListener {
 	JPanel painel;
 	JButton voltar, limpar, cadastrar;
@@ -34,10 +37,10 @@ public class Cadastro extends JFrame implements ActionListener {
 		senha = new JLabel("senha:");
 		senha1 = new JLabel("senha:");
 
-		nomeInput = new JTextField(18);
-		emailInput = new JTextField(18);
-		senhaInput = new JPasswordField(18);
-		senhaInput1 = new JPasswordField(18);
+		nomeInput = new JTextField(20);
+		emailInput = new JTextField(20);
+		senhaInput = new JPasswordField(20);
+		senhaInput1 = new JPasswordField(20);
 
 		painel.add(nome);
 		painel.add(nomeInput);
@@ -59,6 +62,7 @@ public class Cadastro extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+			
 		if (e.getSource() == voltar) {
 			Login login = new Login();
 			login.setVisible(true);
@@ -70,26 +74,42 @@ public class Cadastro extends JFrame implements ActionListener {
 		} else if (e.getSource() == limpar) {
 			limpar();
 		} else if (e.getSource() == cadastrar) {
-			if (nomeInput.getText().compareTo("") == 0) {
+			if (nomeInput.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Preencha o campo nome!");
 				nomeInput.requestFocus();
-			} else if (emailInput.getText().compareTo("") == 0) {
+			} else if (emailInput.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Preencha o campo email!");
 				emailInput.requestFocus();
-			} else if (senhaInput.getText().compareTo("") == 0) {
+			} else if (senhaInput.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null,
 						"Preencha o campo de senha!");
 				senhaInput.requestFocus();
-			} else if (senhaInput1.getText().compareTo("") == 0) {
+			} else if (senhaInput1.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Redigite sua senha!");
 				senhaInput1.requestFocus();
 			} else if (!senhaInput.getText().equals(senhaInput1.getText())) {
-				JOptionPane.showMessageDialog(null, "As senhas s√£o diferentes");
+				JOptionPane.showMessageDialog(null, "As senhas s„o diferentes");
 				senhaInput.requestFocus();
 				senhaInput.setText("");
 				senhaInput1.setText("");
 			} else {
 				// operacoes com o banco de dados
+				Conexao connect = new Conexao();
+				CadastroDAO cad = new CadastroDAO();
+				String name = nomeInput.getText();
+				String mail = emailInput.getText();
+				String pass = senhaInput.getText();
+				System.out.println(name+mail+pass);
+				try {
+					connect.conectar();
+					cad.inserir(connect.conn, name,mail,pass);
+					
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "N„o foi possivel realizar o cadastro!");
+				}
+				
+				
 				JOptionPane.showMessageDialog(null, "Cadastrado!");
 				limpar();
 			}

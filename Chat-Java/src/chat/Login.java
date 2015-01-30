@@ -22,7 +22,7 @@ public class Login extends JFrame implements ActionListener {
 	JTextField nickname;
 
 	public Login() {
-		super("Chat DnaTec 2015");
+		super("Chat DnaTec");
 		painel = new JPanel();
 
 		entrar = new JButton("Entrar");
@@ -58,7 +58,7 @@ public class Login extends JFrame implements ActionListener {
 			c.setDefaultCloseOperation(c.EXIT_ON_CLOSE);
 			c.setLocationRelativeTo(null);
 			c.setResizable(false);
-			c.setSize(450, 350);
+			c.setSize(450, 360);
 			this.dispose();
 		} else if (e.getSource() == cadastrar) {
 			// direcionar para tela de cadastro
