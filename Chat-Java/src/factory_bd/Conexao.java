@@ -20,18 +20,7 @@ public class Conexao {
 			Class.forName("org.postgresql.Driver");
 
 			conn = DriverManager.getConnection(url, nome, senha);
-/*			String sql = "insert into usuarios(nome, email, senha) values (?,?,?)";
 
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, "admin");
-			ps.setString(2, "admin@gmail.com");
-			ps.setString(3, "12345");
-
-//			ps.executeQuery();
-			
-			int num = ps.executeUpdate();
-			System.out.println(num);
-*/
 		} catch (SQLException e) {
 			System.out.println("Erro na conexão");
 		}

@@ -2,9 +2,11 @@ package chat;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Date;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,9 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardDownRightHandler;
 
-public class Cliente extends JFrame implements ActionListener,KeyListener {
+public class Cliente extends JFrame implements ActionListener {
 
 	JPanel painel;
 	JButton send;
@@ -24,8 +25,27 @@ public class Cliente extends JFrame implements ActionListener,KeyListener {
 	JTextField input;
 	JScrollPane scroll;
 
-	public Cliente() {
-		super("Chat");
+	private String nome;
+	Socket cliente;
+	DataOutputStream out;
+	DataInputStream in;
+	String mensagem;
+
+	public Cliente(String nome) throws IOException {
+		super("Chat - " + nome);
+		this.nome = nome;
+
+		try {
+			cliente = new Socket("localhost", 2323);
+			out = new DataOutputStream(cliente.getOutputStream());
+			in = new DataInputStream(cliente.getInputStream());
+
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		painel = new JPanel();
 		send = new JButton("Enviar");
 
@@ -40,9 +60,7 @@ public class Cliente extends JFrame implements ActionListener,KeyListener {
 		scroll.setViewportView(area);
 
 		input = new JTextField(30);
-		input.addKeyListener(this);
 		send.addActionListener(this);
-
 		painel.add(scroll);
 		// painel.add(area);
 		painel.add(input);
@@ -50,36 +68,47 @@ public class Cliente extends JFrame implements ActionListener,KeyListener {
 
 		this.add(painel);
 		this.pack();
+		recebeMensagem();
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == send) {
-			Date data = new Date();
-			String d = data.getHours() + ":" + data.getMinutes() + ":"
-					+ data.getSeconds();
+			String mensagem = input.getText();
+			try {
+				out.writeUTF(nome + " : " + mensagem);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				try {
+					cliente.close();
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
 
-			area.append("\n"+input.getText() + "\n" + d);
-
+			}
 			input.setText("");
 			input.requestFocus();
 		}
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+	public void recebeMensagem() {
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						mensagem = in.readUTF();
+						area.append(mensagem + "\n");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		t.start();
 	}
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-	}
+
 }

@@ -1,0 +1,23 @@
+=======================================================
+Chat java utilizando sockets - Breno Vinicios
+DnaTec 2015
+=======================================================
+-Necessario ter o postgresql instalado na máquina
+-Para criar o BD de usuarios, execute o arquivo SQL
+de nome chatBD.sql.
+
+-Caso dê algum erro no projeto, tem que re-importar
+o jar do postgre.
+(selecione o projeto , alt+enter, Java Build Path,
+Libraries, -exclui o postgresql que esta marcado 
+com erro, depois em add External JARs, a librarie 
+esta junto com projeto).
+
+-Execute a classe Servidor.
+-execute a classe principal.
+-cadastre alguns usuarios.
+
+=======================================================
+
+obs = botão sair ainda está com erro
+
