@@ -20,7 +20,9 @@ public class Servidor {
 			server = serverSocket.accept();
 			outList.add(new DataOutputStream(server.getOutputStream()));
 			new ServidorThread(server, outList);
+		
 		}
+	
 	}
 
 	public static void main(String[] args) throws IOException {
