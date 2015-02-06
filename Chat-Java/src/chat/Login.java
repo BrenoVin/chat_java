@@ -74,21 +74,17 @@ public class Login extends JFrame implements ActionListener {
 				con.conectar();
 				a = ld.entrar(con.conn, nome1, senha1);
 			} catch (ClassNotFoundException | SQLException e1) {
-				e1.printStackTrace();
+				System.err.println("Erro na conexão!");
 			}
 
 			if (a) {
 
 				Cliente c = null;
-				try {
-					c = new Cliente(nome1);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				c = new Cliente(nome1);
 				c.setVisible(true);
 				c.setLocationRelativeTo(null);
 				c.setResizable(false);
-				c.setDefaultCloseOperation(c.EXIT_ON_CLOSE);
+				c.setDefaultCloseOperation(c.DO_NOTHING_ON_CLOSE);
 				c.setSize(450, 360);
 				this.dispose();
 

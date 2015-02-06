@@ -5,11 +5,17 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 public class Conexao {
 	public java.sql.Connection conn = null;
-	public static void main(String args[]) throws ClassNotFoundException {
+	public static void main(String args[]){
 		Conexao n = new Conexao();
-		n.conectar();
+		try {
+			n.conectar();
+		} catch (ClassNotFoundException e) {
+			System.err.println("erro na classe conexao!");
+		}
 	}
 
 	public void conectar() throws ClassNotFoundException {
@@ -22,7 +28,7 @@ public class Conexao {
 			conn = DriverManager.getConnection(url, nome, senha);
 
 		} catch (SQLException e) {
-			System.out.println("Erro na conex„o");
+			JOptionPane.showMessageDialog(null, "Banco de dados indispon√≠vel");
 		}
 	}
 }

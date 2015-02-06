@@ -18,7 +18,7 @@ public class CadastroDAO {
 			// con.commit();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("erro no select");
 		}
 
 	}

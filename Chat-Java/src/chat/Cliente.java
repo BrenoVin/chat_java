@@ -2,6 +2,8 @@ package chat;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,6 +13,7 @@ import java.net.UnknownHostException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -24,6 +27,7 @@ public class Cliente extends JFrame implements ActionListener {
 	JLabel label1, label2;
 	JTextField input;
 	JScrollPane scroll;
+	Thread t;
 
 	private String nome;
 	Socket cliente;
@@ -31,7 +35,7 @@ public class Cliente extends JFrame implements ActionListener {
 	DataInputStream in;
 	String mensagem;
 
-	public Cliente(String nome) throws IOException {
+	public Cliente(String nome){
 		super("Chat - " + nome);
 		this.nome = nome;
 
@@ -41,9 +45,9 @@ public class Cliente extends JFrame implements ActionListener {
 			in = new DataInputStream(cliente.getInputStream());
 
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Servidor Indisponível!");
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("Erro na comunicação!");;
 		}
 
 		painel = new JPanel();
@@ -69,6 +73,20 @@ public class Cliente extends JFrame implements ActionListener {
 		this.add(painel);
 		this.pack();
 		recebeMensagem();
+		
+		this.addWindowListener(new WindowAdapter() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void windowClosing(WindowEvent evt){
+				t.stop();
+				try {
+					cliente.close();
+				} catch (IOException e) {
+					System.err.println("erro ao fechar o cliente");;
+				}
+				dispose();
+			}
+		});
 
 	}
 
@@ -79,22 +97,16 @@ public class Cliente extends JFrame implements ActionListener {
 			try {
 				out.writeUTF(nome + " : " + mensagem);
 			} catch (IOException e1) {
-				e1.printStackTrace();
-				try {
-					cliente.close();
-				} catch (IOException e2) {
-					e2.printStackTrace();
-				}
-
+				JOptionPane.showMessageDialog(null, "Mensagem não enviada!");
 			}
 			input.setText("");
 			input.requestFocus();
 		}
-		
+
 	}
 
 	public void recebeMensagem() {
-		Thread t = new Thread(new Runnable() {
+		t = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				while (true) {
@@ -102,13 +114,12 @@ public class Cliente extends JFrame implements ActionListener {
 						mensagem = in.readUTF();
 						area.append(mensagem + "\n");
 					} catch (IOException e) {
-						e.printStackTrace();
+						System.err.println("Erro ao receber as mensagens!");
 					}
 				}
 			}
 		});
 		t.start();
 	}
-
 
 }
