@@ -55,8 +55,6 @@ public class ServidorThread {
 	}
 
 	public void sendMessage() {
-		System.out.println(outList);
-		
 		for (DataOutputStream out : outList) {
 			try {
 				out.flush();
@@ -64,7 +62,7 @@ public class ServidorThread {
 			} catch (IOException e) {
 				outList.remove(out);
 				System.err
-						.println("Erro ao enviar a mensagem para todos conectados!");
+						.println("Alguem se desconectou!");
 			}
 		}
 	}
